@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rencana Belajar Irodori A1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f5f0eb;
+    color: #2d2d2d;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #c0392b 0%, #8e1a0e 100%);
+    color: white;
+    padding: 28px 24px 20px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.6rem; letter-spacing: 1px; }
+  header p { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+  .badge-row {
+    display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+  }
+
+  .tabs {
+    display: flex; background: #fff; border-bottom: 2px solid #e0d6cc;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 12px 18px;
+    font-size: 0.82rem; font-weight: 600;
+    color: #777; cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.15s;
+  }
+  .tab.active { color: #c0392b; border-color: #c0392b; }
+  .tab:hover:not(.active) { color: #c0392b; background: #fdf5f3; }
+
+  .content { padding: 20px 16px; max-width: 860px; margin: 0 auto; }
+
+  /* OVERVIEW TAB */
+  .overview-intro {
+    background: white; border-radius: 12px; padding: 18px;
+    margin-bottom: 16px; border-left: 4px solid #c0392b;
+  }
+  .overview-intro h2 { font-size: 1rem; color: #c0392b; margin-bottom: 6px; }
+  .overview-intro p { font-size: 0.85rem; line-height: 1.6; color: #555; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
+  }
+  .stat-card {
+    background: white; border-radius: 12px; padding: 14px; text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: #c0392b; }
+  .stat-lbl { font-size: 0.72rem; color: #888; margin-top: 2px; }
+
+  .topic-card {
+    background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    cursor: pointer; transition: box-shadow 0.15s;
+  }
+  .topic-card:hover { box-shadow: 0 3px 10px rgba(192,57,43,0.12); }
+  .topic-header {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .topic-num {
+    background: #c0392b; color: white;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+  }
+  .topic-title { font-size: 0.9rem; font-weight: 600; flex: 1; }
+  .topic-badge {
+    font-size: 0.7rem; background: #fdf0ee; color: #c0392b;
+    padding: 2px 8px; border-radius: 10px;
+  }
+  .topic-lessons { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; }
+  .lesson-row {
+    display: flex; gap: 8px; align-items: flex-start; padding: 5px 0;
+    font-size: 0.82rem;
+  }
+  .lesson-num {
+    background: #f5f0eb; color: #c0392b;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 700; flex-shrink: 0;
+  }
+  .lesson-info { flex: 1; }
+  .lesson-en { color: #444; font-weight: 500; }
+  .lesson-jp { color: #888; font-size: 0.78rem; }
+  .can-do-count { color: #999; font-size: 0.72rem; }
+
+  /* PLAN TAB */
+  .plan-info {
+    background: white; border-radius: 12px; padding: 16px; margin-bottom: 14px;
+    border-left: 4px solid #e67e22;
+  }
+  .plan-info h3 { font-size: 0.95rem; color: #e67e22; margin-bottom: 6px; }
+  .plan-info p { font-size: 0.82rem; color: #555; line-height: 1.55; }
+
+  .pace-selector {
+    display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .pace-btn {
+    padding: 8px 16px; border-radius: 20px; border: 2px solid #ddd;
+    font-size: 0.8rem; cursor: pointer; background: white;
+    transition: all 0.15s; font-weight: 500;
+  }
+  .pace-btn.active { border-color: #c0392b; background: #c0392b; color: white; }
+
+  .week-card {
+    background: white; border-radius: 12px; margin-bottom: 10px;
+    overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .week-header {
+    background: #f9f5f3; padding: 10px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #ede8e4;
+  }
+  .week-label { font-size: 0.85rem; font-weight: 700; color: #555; }
+  .week-topic { font-size: 0.78rem; color: #c0392b; font-weight: 600; }
+  .week-body { padding: 12px 16px; }
+  .week-lesson {
+    display: flex; gap: 8px; align-items: center; padding: 4px 0;
+    font-size: 0.82rem; color: #444;
+  }
+  .dot { width: 6px; height: 6px; background: #c0392b; border-radius: 50%; flex-shrink: 0; }
+  .week-tip {
+    margin-top: 8px; font-size: 0.78rem; color: #888;
+    background: #fdf8f5; padding: 8px 10px; border-radius: 8px;
+  }
+  .week-tip span { color: #c0392b; font-weight: 600; }
+
+  /* METHOD TAB */
+  .method-section { margin-bottom: 14px; }
+  .method-card {
+    background: white; border-radius: 12px; padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 10px;
+  }
+  .method-card h3 {
+    font-size: 0.92rem; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .icon-circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+  }
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 0.82rem; color: #444; padding: 5px 0; line-height: 1.5;
+  }
+  .step-num {
+    background: #c0392b; color: white; border-radius: 50%;
+    width: 20px; height: 20px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 700;
+  }
+  .tip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tip-item {
+    background: #fdf5f3; border-radius: 8px; padding: 10px;
+    font-size: 0.78rem; color: #555; line-height: 1.5;
+  }
+  .tip-item strong { display: block; color: #c0392b; margin-bottom: 2px; font-size: 0.82rem; }
+
+  /* PROGRESS TAB */
+  .progress-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;
+  }
+  .check-card {
+    background: white; border-radius: 10px; padding: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .check-card h4 { font-size: 0.82rem; font-weight: 700; color: #c0392b; margin-bottom: 8px; }
+  .check-item {
+    display: flex; gap: 8px; align-items: center;
+    font-size: 0.78rem; color: #555; padding: 3px 0; cursor: pointer;
+  }
+  .check-box {
+    width: 16px; height: 16px; border: 2px solid #ddd; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.15s;
+  }
+  .check-item.done .check-box { background: #c0392b; border-color: #c0392b; }
+  .check-item.done .check-box::after { content: '✓'; color: white; font-size: 0.65rem; }
+  .check-item.done span { text-decoration: line-through; color: #aaa; }
+
+  .progress-bar-wrap { background: white; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .progress-bar-wrap h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; color: #444; }
+  .bar-row { margin-bottom: 8px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 0.76rem; color: #666; margin-bottom: 3px; }
+  .bar-bg { background: #f0e8e4; border-radius: 10px; height: 8px; }
+  .bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #c0392b, #e74c3c); transition: width 0.4s; }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Irodori A1 — Rencana Belajar</h1>
+  <p>入門 (Nyuumon / Starter) · Bahasa Jepang untuk Kehidupan di Jepang</p>
+  <div class="badge-row">
+    <span class="badge">18 Pelajaran</span>
+    <span class="badge">9 Topik</span>
+    <span class="badge">75 Can-do</span>
+    <span class="badge">~54 jam belajar</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">📖 Isi Buku</div>
+  <div class="tab" onclick="showTab('plan')">📅 Jadwal</div>
+  <div class="tab" onclick="showTab('method')">🎯 Cara Belajar</div>
+  <div class="tab" onclick="showTab('progress')">✅ Progress</div>
+</div>
+
+<!-- ===================== OVERVIEW ===================== -->
+<div id="tab-overview" class="content">
+  <div class="overview-intro">
+    <h2>Tentang Irodori 入門 (A1)</h2>
+    <p>Irodori adalah buku ajar bahasa Jepang dari Japan Foundation, gratis & online. Level A1 (入門/Starter) cocok banget buat yang baru mulai. Fokusnya bukan hafalan teori, tapi <strong>Can-do</strong> — kamu bisa ngapain setelah belajar. 75 Can-do tersebar di 18 pelajaran, mulai dari sapa-sapaan sampai ngomong soal liburan.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">18</div><div class="stat-lbl">Pelajaran (課)</div></div>
+    <div class="stat-card"><div class="stat-num">9</div><div class="stat-lbl">Topik</div></div>
+    <div class="stat-card"><div class="stat-num">75</div><div class="stat-lbl">Can-do Skills</div></div>
+  </div>
+
+  <!-- Topic 1 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">1</div>
+      <div class="topic-title">Starting to Speak Japanese<br><small style="font-weight:400;color:#888">話し始め</small></div>
+      <div class="topic-badge">L1–2</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-en">Good morning! おはようございます</div><div class="lesson-jp">Salam harian, terima kasih, minta maaf — 4 Can-do + belajar Hiragana</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-en">I'm sorry, I don't really understand.</div><div class="lesson-jp">Minta diulang, konfirmasi — 3 Can-do + belajar Katakana</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 2 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">2</div>
+      <div class="topic-title">About Myself<br><small style="font-weight:400;color:#888">自己紹介</small></div>
+      <div class="topic-badge">L3–4</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-en">Nice to meet you.</div><div class="lesson-jp">Perkenalan diri: nama, negara, isi formulir — 4 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-en">I live in Tokyo.</div><div class="lesson-jp">Keluarga, tempat tinggal — 4 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 3 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">3</div>
+      <div class="topic-title">My Favorite Foods<br><small style="font-weight:400;color:#888">好きな食べ物</small></div>
+      <div class="topic-badge">L5–6</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-en">I like udon.</div><div class="lesson-jp">Suka/tidak suka makanan, pesan minum — 5 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-en">I'd like a cheeseburger, please.</div><div class="lesson-jp">Pesan makanan di restoran / fast food — 4 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 4 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">4</div>
+      <div class="topic-title">Homes and Workplaces<br><small style="font-weight:400;color:#888">家と職場</small></div>
+      <div class="topic-badge">L7–8</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-en">There are four rooms.</div><div class="lesson-jp">Deskripsi rumah, tata letak ruangan — 5 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">8</div><div class="lesson-info"><div class="lesson-en">Where is Yamada-san?</div><div class="lesson-jp">Lokasi orang & benda di tempat kerja — 4 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 5 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">5</div>
+      <div class="topic-title">Daily Life<br><small style="font-weight:400;color:#888">毎日の生活</small></div>
+      <div class="topic-badge">L9–10</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">9</div><div class="lesson-info"><div class="lesson-en">Lunch is from noon to 1 o'clock.</div><div class="lesson-jp">Jadwal harian, waktu, hari — 4 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">10</div><div class="lesson-info"><div class="lesson-en">Please lend me the stapler.</div><div class="lesson-jp">Instruksi kerja, pinjam barang — 5 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 6 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">6</div>
+      <div class="topic-title">What I Like to Do<br><small style="font-weight:400;color:#888">趣味・好きなこと</small></div>
+      <div class="topic-badge">L11–12</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">11</div><div class="lesson-info"><div class="lesson-en">What kind of manga do you like?</div><div class="lesson-jp">Hobi, kegiatan hari libur — 4 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">12</div><div class="lesson-info"><div class="lesson-en">Do you want to go for a drink together?</div><div class="lesson-jp">Ajak teman keluar, buat rencana — 4 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 7 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">7</div>
+      <div class="topic-title">Walking around Town<br><small style="font-weight:400;color:#888">街を歩く</small></div>
+      <div class="topic-badge">L13–14</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">13</div><div class="lesson-info"><div class="lesson-en">Does this bus go to the airport?</div><div class="lesson-jp">Transportasi, tanya arah, durasi perjalanan — 5 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">14</div><div class="lesson-info"><div class="lesson-en">It's a big building, isn't it.</div><div class="lesson-jp">Tanya lokasi, deskripsikan tempat — 4 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 8 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">8</div>
+      <div class="topic-title">At Stores<br><small style="font-weight:400;color:#888">お店で</small></div>
+      <div class="topic-badge">L15–16</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">15</div><div class="lesson-info"><div class="lesson-en">I need some batteries.</div><div class="lesson-jp">Tanya letak barang, beri komentar produk — 5 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">16</div><div class="lesson-info"><div class="lesson-en">How much is this?</div><div class="lesson-jp">Tanya harga, belanja, baca tanda diskon — 5 Can-do</div></div></div>
+    </div>
+  </div>
+
+  <!-- Topic 9 -->
+  <div class="topic-card">
+    <div class="topic-header">
+      <div class="topic-num">9</div>
+      <div class="topic-title">Holidays<br><small style="font-weight:400;color:#888">休みの日</small></div>
+      <div class="topic-badge">L17–18</div>
+    </div>
+    <div class="topic-lessons">
+      <div class="lesson-row"><div class="lesson-num">17</div><div class="lesson-info"><div class="lesson-en">I went to see a movie.</div><div class="lesson-jp">Cerita hari libur, beri kesan — 5 Can-do</div></div></div>
+      <div class="lesson-row"><div class="lesson-num">18</div><div class="lesson-info"><div class="lesson-en">I want to go to a hot spring.</div><div class="lesson-jp">Rencana liburan, onsen, reservasi — 5 Can-do</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PLAN ===================== -->
+<div id="tab-plan" class="content hidden">
+  <div class="plan-info">
+    <h3>🗓️ Pilih Kecepatan Belajarmu</h3>
+    <p>Satu pelajaran (課) butuh sekitar 3 jam belajar mandiri. Total 18 pelajaran = ±54 jam. Pilih tempo yang sesuai hidupmu — konsistensi lebih penting dari kecepatan!</p>
+  </div>
+
+  <div class="pace-selector">
+    <button class="pace-btn active" onclick="setPace(1)">🐢 Santai (1 pelajaran/minggu · 18 minggu)</button>
+    <button class="pace-btn" onclick="setPace(2)">⚡ Sedang (2 pelajaran/minggu · 9 minggu)</button>
+    <button class="pace-btn" onclick="setPace(3)">🚀 Intensif (3 pelajaran/minggu · 6 minggu)</button>
+  </div>
+
+  <div id="pace-weeks"></div>
+</div>
+
+<!-- ===================== METHOD ===================== -->
+<div id="tab-method" class="content hidden">
+
+  <div class="method-card">
+    <h3><div class="icon-circle" style="background:#fdecea">🎯</div> Cara Pakai Setiap Pelajaran (Per Aktivitas)</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><span><strong>Cek Can-do</strong> — Baca dulu target Can-do di awal aktivitas. Ini "finish line" kamu untuk aktivitas itu.</span></li>
+      <li><div class="step-num">2</div><span><strong>Dengarkan audio</strong> — Irodori punya audio online. Dengar contoh percakapan tanpa lihat teks dulu. Coba tangkap intinya.</span></li>
+      <li><div class="step-num">3</div><span><strong>Ikuti alur aktivitas</strong> — Tiap aktivitas ada bagian "Perhatikan Bentuk" (形に注目). Ini bagian belajar pola kalimat — jangan diskip!</span></li>
+      <li><div class="step-num">4</div><span><strong>Latihan bicara / tulis</strong> — Di bagian 「話す」 atau 「書く」, coba beneran praktekin sendiri. Rekam suara kamu kalau bisa!</span></li>
+      <li><div class="step-num">5</div><span><strong>Can-do Check</strong> — Di akhir, nilai diri sendiri: ★☆☆ bisa dikit / ★★☆ lumayan / ★★★ sudah bisa dengan lancar.</span></li>
+    </ul>
+  </div>
+
+  <div class="method-card">
+    <h3><div class="icon-circle" style="background:#fff8e1">📝</div> Tips Belajar Hiragana & Katakana (L1 & L2)</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><span>Pelajaran 1 khusus Hiragana, Pelajaran 2 khusus Katakana. <strong>Kuasai ini dulu sebelum lanjut ke L3!</strong> Tanpa ini, kamu akan kesulitan membaca teks selanjutnya.</span></li>
+      <li><div class="step-num">2</div><span>Tulis berulang sambil ucapkan — jangan cuma hafal visual. Gunakan flashcard atau app Anki untuk latihan harian.</span></li>
+      <li><div class="step-num">3</div><span>Targetkan hafal Hiragana dalam 1 minggu, Katakana 1 minggu. Total 2 minggu khusus aksara.</span></li>
+    </ul>
+  </div>
+
+  <div class="method-card">
+    <h3><div class="icon-circle" style="background:#e8f5e9">🔁</div> Rutinitas Harian yang Disarankan</h3>
+    <div class="tip-grid">
+      <div class="tip-item"><strong>Pagi (10–15 menit)</strong>Review vocab & kalimat dari pelajaran sebelumnya. Bisa pakai kartu atau buka balik PDF.</div>
+      <div class="tip-item"><strong>Siang/Sore (45–60 menit)</strong>Kerjakan 1 aktivitas baru dari Irodori. Dengar audio, baca, latihan ngomong.</div>
+      <div class="tip-item"><strong>Malam (10–15 menit)</strong>Tulis 3–5 kalimat contoh dari pola yang baru dipelajari. Atau latihan shadow audio.</div>
+      <div class="tip-item"><strong>Weekend</strong>Review satu pelajaran penuh, isi Can-do Check, dan coba praktek dengan teman / tutor online.</div>
+    </div>
+  </div>
+
+  <div class="method-card">
+    <h3><div class="icon-circle" style="background:#e3f2fd">🌐</div> Sumber Pendukung</h3>
+    <ul class="step-list">
+      <li><div class="step-num">♪</div><span><strong>Audio Irodori</strong> — Gratis di website Japan Foundation: <em>irodori.jpf.go.jp</em>. Dengar sampai hafal bunyinya.</span></li>
+      <li><div class="step-num">📱</div><span><strong>Anki</strong> — Buat flashcard dari kosakata kanji di tiap pelajaran (ada di bagian "Kanji Words").</span></li>
+      <li><div class="step-num">🗣️</div><span><strong>HelloTalk / Tandem</strong> — Cari language partner orang Jepang untuk praktek langsung dari pelajaran yang udah dipelajari.</span></li>
+      <li><div class="step-num">📺</div><span><strong>NHK Web Easy</strong> — Buat latihan membaca setelah L9 ke atas. Berita dalam bahasa Jepang sederhana.</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== PROGRESS ===================== -->
+<div id="tab-progress" class="content hidden">
+
+  <div class="progress-bar-wrap">
+    <h3>📊 Progress Keseluruhan</h3>
+    <div class="bar-row">
+      <div class="bar-label"><span>Pelajaran selesai</span><span id="prog-lessons">0/18</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-lessons" style="width:0%"></div></div>
+    </div>
+    <div class="bar-row" style="margin-top:10px">
+      <div class="bar-label"><span>Can-do tercapai</span><span id="prog-candos">0/18</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar-candos" style="width:0%;background:linear-gradient(90deg,#27ae60,#2ecc71)"></div></div>
+    </div>
+  </div>
+
+  <div class="progress-grid" id="progress-checks"></div>
+</div>
+
+<script>
+  // ===== TABS =====
+  function showTab(name) {
+    document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.remove('hidden');
+    event.target.classList.add('active');
+  }
+
+  // ===== PLAN =====
+  const lessons = [
+    { n: 1, title: "Good morning! おはようございます", topic: "Starting to Speak Japanese" },
+    { n: 2, title: "I'm sorry, I don't really understand.", topic: "Starting to Speak Japanese" },
+    { n: 3, title: "Nice to meet you.", topic: "About Myself" },
+    { n: 4, title: "I live in Tokyo.", topic: "About Myself" },
+    { n: 5, title: "I like udon.", topic: "My Favorite Foods" },
+    { n: 6, title: "I'd like a cheeseburger, please.", topic: "My Favorite Foods" },
+    { n: 7, title: "There are four rooms.", topic: "Homes and Workplaces" },
+    { n: 8, title: "Where is Yamada-san?", topic: "Homes and Workplaces" },
+    { n: 9, title: "Lunch is from noon to 1 o'clock.", topic: "Daily Life" },
+    { n: 10, title: "Please lend me the stapler.", topic: "Daily Life" },
+    { n: 11, title: "What kind of manga do you like?", topic: "What I Like to Do" },
+    { n: 12, title: "Do you want to go for a drink together?", topic: "What I Like to Do" },
+    { n: 13, title: "Does this bus go to the airport?", topic: "Walking around Town" },
+    { n: 14, title: "It's a big building, isn't it.", topic: "Walking around Town" },
+    { n: 15, title: "I need some batteries.", topic: "At Stores" },
+    { n: 16, title: "How much is this?", topic: "At Stores" },
+    { n: 17, title: "I went to see a movie.", topic: "Holidays" },
+    { n: 18, title: "I want to go to a hot spring.", topic: "Holidays" }
+  ];
+
+  const tips = [
+    "Fokus hafal Hiragana dulu! Gunakan lagu atau mnemonik.",
+    "Coba buat 5 kalimat perkenalan diri dalam bahasa Jepang.",
+    "Latih percakapan pesan makanan dengan teman atau cermin!",
+    "Gambar denah rumah kamu pakai kata-kata Jepang yang baru dipelajari.",
+    "Buat jadwal harian kamu dalam bahasa Jepang.",
+    "Ceritakan hobi kamu ke language partner Jepang.",
+    "Coba naik transportasi umum dan baca papan petunjuknya.",
+    "Praktekkan belanja di online shop Jepang (Rakuten, dll).",
+    "Tulis cerita liburanmu dalam bahasa Jepang di diary atau SNS!"
+  ];
+
+  let currentPace = 1;
+
+  function setPace(pace) {
+    currentPace = pace;
+    document.querySelectorAll('.pace-btn').forEach((b, i) => b.classList.toggle('active', i + 1 === pace));
+    renderPlan();
+  }
+
+  function renderPlan() {
+    const perWeek = currentPace;
+    const weeks = [];
+    for (let i = 0; i < lessons.length; i += perWeek) {
+      weeks.push(lessons.slice(i, i + perWeek));
+    }
+    const container = document.getElementById('pace-weeks');
+    container.innerHTML = weeks.map((group, wi) => {
+      const tipIdx = Math.floor(wi / 2);
+      return `
+        <div class="week-card">
+          <div class="week-header">
+            <div class="week-label">Minggu ${wi + 1}</div>
+            <div class="week-topic">${group[0].topic}</div>
+          </div>
+          <div class="week-body">
+            ${group.map(l => `
+              <div class="week-lesson">
+                <div class="dot"></div>
+                <span><strong>L${l.n}</strong> — ${l.title}</span>
+              </div>`).join('')}
+            ${(wi % 2 === 1 || wi === weeks.length - 1) ? `<div class="week-tip"><span>💡 Tip:</span> ${tips[tipIdx] || tips[tips.length-1]}</div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ===== PROGRESS =====
+  const stored = JSON.parse(localStorage.getItem('irodori-progress') || '{}');
+
+  function renderProgress() {
+    const container = document.getElementById('progress-checks');
+    const topicGroups = {};
+    lessons.forEach(l => {
+      if (!topicGroups[l.topic]) topicGroups[l.topic] = [];
+      topicGroups[l.topic].push(l);
+    });
+    container.innerHTML = Object.entries(topicGroups).map(([topic, ls]) => `
+      <div class="check-card">
+        <h4>${topic}</h4>
+        ${ls.map(l => `
+          <div class="check-item ${stored[l.n] ? 'done' : ''}" onclick="toggleLesson(${l.n}, this)">
+            <div class="check-box"></div>
+            <span>L${l.n}: ${l.title.split('.')[0]}</span>
+          </div>`).join('')}
+      </div>`).join('');
+    updateBars();
+  }
+
+  function toggleLesson(n, el) {
+    if (stored[n]) { delete stored[n]; el.classList.remove('done'); }
+    else { stored[n] = true; el.classList.add('done'); }
+    localStorage.setItem('irodori-progress', JSON.stringify(stored));
+    updateBars();
+  }
+
+  function updateBars() {
+    const done = Object.keys(stored).length;
+    document.getElementById('prog-lessons').textContent = `${done}/18`;
+    document.getElementById('bar-lessons').style.width = `${(done/18)*100}%`;
+    document.getElementById('prog-candos').textContent = `${done}/18`;
+    document.getElementById('bar-candos').style.width = `${(done/18)*100}%`;
+  }
+
+  // Init
+  renderPlan();
+  renderProgress();
+</script>
+</body>
+</html>
